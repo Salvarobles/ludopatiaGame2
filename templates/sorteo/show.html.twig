@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorteo
+{% endblock %}
+
+{% block body %}
+	<h1>Sorteo</h1>
+
+	<table class="table">
+		<tbody>
+
+			{% for sorteo in sorteos %}
+				<tr>
+					<th>Nombre</th>
+					<td>{{ sorteo.nombre }}</td>
+				</tr>
+				<tr>
+					<th>FechaHora</th>
+					<td>{{ sorteo.fechaHora ? sorteo.fechaHora|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+				<tr>
+					<th>PrecioNumero</th>
+					<td>{{ sorteo.precioNumero }}</td>
+				</tr>
+				<tr>
+					<th>NumsAVender</th>
+					<td>{{ sorteo.numsAVender }}</td>
+				</tr>
+				<tr>
+					<th>Premio</th>
+					<td>{{ sorteo.premio }}</td>
+
+				</tr>
+				<a href="{{ path('app_compra_new', {'id': sorteo.id}) }}">Comprar una entrada a este sorteo</a>
+
+				{# <a href="/comprar/new/{sorteo.id}">Comprar una entrada a este sorteo</a> #}
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="/">Volver atras</a>
+{% endblock %}
