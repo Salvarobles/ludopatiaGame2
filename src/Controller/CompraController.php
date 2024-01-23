@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Compra;
+use App\Entity\Sorteo;
 use App\Form\CompraType;
 use App\Repository\CompraRepository;
+use App\Repository\SorteoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,22 +25,24 @@ class CompraController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_compra_new', methods: ['GET', 'POST'])]
-    public function new($id, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Sorteo $sorteo, Request $request, EntityManagerInterface $entityManager, CompraRepository $compraRepository, SorteoRepository $sorteoRepository): Response
     {
         $compra = new Compra();
-        $form = $this->createForm(CompraType::class, $compra, ['sorteoId' => $id]);
-        $form->handleRequest($request);
+        $numeros = $compraRepository->numerosLoteriaNoVendidos($sorteo);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($compra);
-            $entityManager->flush();
+        // $form = $this->createForm(CompraType::class, $compra, ['numeros' => $numeros]);
+        // $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_compra_index', [], Response::HTTP_SEE_OTHER);
-        }
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $entityManager->persist($compra);
+        //     $entityManager->flush();
 
-        return $this->render('compra/new.html.twig', [
+        //     return $this->redirectToRoute('app_compra_index', [], Response::HTTP_SEE_OTHER);
+        // }
+
+        return $this->render('compra/verNumeros.html.twig', [
             'compra' => $compra,
-            'form' => $form,
+            'numeros' => $numeros,
         ]);
     }
 
@@ -91,7 +95,7 @@ class CompraController extends AbstractController
     #[Route('/{id}', name: 'app_compra_delete', methods: ['POST'])]
     public function delete(Request $request, Compra $compra, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$compra->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $compra->getId(), $request->request->get('_token'))) {
             $entityManager->remove($compra);
             $entityManager->flush();
         }

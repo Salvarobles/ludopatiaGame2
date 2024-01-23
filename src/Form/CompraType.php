@@ -40,15 +40,10 @@ class CompraType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $sorteoId = $options['sorteoId'];
-
         $builder
             ->add('numeroLoteria', ChoiceType::class, [
                 'choices' => 
-                    function(\App\Repository\CompraRepository $er) use ($sorteoId) {
-                        return $er->numerosLoteriaNoVendidos($sorteoId);
-                    },
-                
+                    $options['numeros'],
                 'placeholder' => 'Selecciona una categoría', // Opcional: añade un marcador de posición
             ]);
     }
