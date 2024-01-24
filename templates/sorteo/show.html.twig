@@ -1,41 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sorteo
+{% block title %}
+	Sorteo
 {% endblock %}
 
 {% block body %}
 	<h1>Sorteo</h1>
 
 	<table class="table">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Fecha de cierre</th>
+				<th>PrecioNumero</th>
+				<th>NumsAVender</th>
+				<th>Premio</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
 		<tbody>
-
 			{% for sorteo in sorteos %}
 				<tr>
-					<th>Nombre</th>
 					<td>{{ sorteo.nombre }}</td>
-				</tr>
-				<tr>
-					<th>FechaHora</th>
 					<td>{{ sorteo.fechaHora ? sorteo.fechaHora|date('Y-m-d H:i:s') : '' }}</td>
-				</tr>
-				<tr>
-					<th>PrecioNumero</th>
 					<td>{{ sorteo.precioNumero }}</td>
-				</tr>
-				<tr>
-					<th>NumsAVender</th>
 					<td>{{ sorteo.numsAVender }}</td>
-				</tr>
-				<tr>
-					<th>Premio</th>
 					<td>{{ sorteo.premio }}</td>
-
+					<td>
+						{% if userSaldo >= sorteo.precioNumero %}
+							<a href="{{ path('app_compra_new', {'id': sorteo.id}) }}">Comprar una entrada</a>
+						{% else %}
+							No tiene suficiente dinero para participar en este sorteo
+						{% endif %}
+					</td>
 				</tr>
-				<a href="{{ path('app_compra_new', {'id': sorteo.id}) }}">Comprar una entrada a este sorteo</a>
-				{# <a href="/comprar/new/{sorteo.id}">Comprar una entrada a este sorteo</a> #}
 			{% endfor %}
 		</tbody>
 	</table>
 
-	<a href="/">Volver atras</a>
+	<a href="/">Volver atrás</a>
 {% endblock %}

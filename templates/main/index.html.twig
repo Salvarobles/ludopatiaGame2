@@ -18,12 +18,24 @@
 	</style>
 
 	<div class="example-wrapper">
-		{% if is_granted('ROLE_USER') %}
-			<h1>Bienvenido usuario:
-				{{ app.user.username }}</h1>
-			<a href="/sorteo/show">Ver Sorteos</a>
-		{% else %}
-			<p>No tienes permisos para ver este contenido.</p>
+		{% if app.user %}
+			{% if app.user.username != "sapa" %}
+				<h1>Bienvenido usuario:
+					{{ app.user.username }}</h1>
+				<ul>
+					<li>
+						<a href="/sorteo/show">Ver Sorteos</a><br>
+					</li>
+					<li>
+						<a href="{{ path('app_user_addMoney') }}">Añadir saldo</a><br>
+					</li>
+					<li>
+						<a href="/compra/participe">Ver Sorteos Participados</a>
+					</li>
+				</ul>
+			{% else %}
+				<a href="/sorteo/new">Crear Sorteos</a>
+			{% endif %}
 		{% endif %}
 	</div>
 {% endblock %}

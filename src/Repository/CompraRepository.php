@@ -70,4 +70,18 @@ class CompraRepository extends ServiceEntityRepository
 
         return $numerosNoVendidos;
     }
+
+
+    public function getCompraByUser($user): array
+    {
+
+        $compras = $this->createQueryBuilder('c')
+        ->andWhere('c.user = :usuario')  // Utiliza el nombre de la propiedad en la entidad, no el nombre de la columna de la base de datos
+        ->setParameter('usuario', $user)
+        ->getQuery()
+        ->getResult();
+
+    return $compras;
+    }
+    
 }

@@ -2,30 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Sorteo;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NegativeOrZero;
 
-class SorteoType extends AbstractType
+class AddMoneyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('fechaHora')
-            ->add('precioNumero')
-            ->add('numsAVender')
-            ->add('premio')
+            ->add('amount', IntegerType::class, ['mapped' => false ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Sorteo::class,
+            'data_class' => User::class,
         ]);
     }
 }

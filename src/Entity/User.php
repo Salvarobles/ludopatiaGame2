@@ -84,7 +84,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
@@ -196,6 +195,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->sorteos->removeElement($sorteo)) {
             $sorteo->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function addMoney($amount): static
+    {
+        $this->saldoActual = $this->getSaldoActual() + $amount;
 
         return $this;
     }

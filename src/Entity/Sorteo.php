@@ -37,6 +37,9 @@ class Sorteo
     #[ORM\OneToMany(mappedBy: 'sorteo', targetEntity: Compra::class)]
     private Collection $compra;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $boletoPremido = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -158,6 +161,18 @@ class Sorteo
                 $compra->setSorteo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBoletoPremido(): ?int
+    {
+        return $this->boletoPremido;
+    }
+
+    public function setBoletoPremido(?int $boletoPremido): static
+    {
+        $this->boletoPremido = $boletoPremido;
 
         return $this;
     }

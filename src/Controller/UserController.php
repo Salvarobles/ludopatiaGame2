@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AddMoneyType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,6 +39,24 @@ class UserController extends AbstractController
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/add', name: 'app_user_addMoney', methods: ['GET', 'POST'])]
+    public function addMoney(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AddMoneyType::class, $this->getUser());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getUser()->addMoney($form->get('amount')->getData());
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('user/edit.html.twig', [
             'form' => $form,
         ]);
     }

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compra
+{% endblock %}
+
+{% block body %}
+	<h1>Sorteos Participados</h1>
+
+	{% for compra in compras %}
+		- Numero elegido:
+		{{ compra.NumeroLoteria }}
+		- Sorteo:
+		{{ compra.sorteo.nombre }}
+		-Hora:
+		{{ compra.sorteo.fechaHora ? compra.sorteo.fechaHora|date('Y-m-d H:i:s') : '' }}
+		<br>
+		{# Hacer AQUI un if que si esta el sorteo finalizado muestre si es el ganador o no #}
+		-
+		{% if compra.sorteo.boletoPremido %}
+			{% if compra.sorteo.boletoPremido == compra.NumeroLoteria %}
+				Enhorabuena su boleto ha sido el premiado. Se le han ingresado el premio.💥
+			{% else %}
+			El numero ha sido premiado, Lo siento a gastar mas dinero.
+			{% endif %}
+		{% else %}
+			Sorteo Activo
+		{% endif %}
+		<br>
+		<br>
+	{% endfor %}
+
+
+	<a href="{{ path('app_main') }}">back to list</a>
+{% endblock %}

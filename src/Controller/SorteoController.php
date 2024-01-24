@@ -53,9 +53,12 @@ class SorteoController extends AbstractController
     #[Route('/show', name: 'app_sorteo_show', methods: ['GET'])]
     public function show(SorteoRepository $sorteoRepository): Response
     {
+        $userSaldo = $this->getUser()->getSaldoActual();
+        
         $sorteos = $sorteoRepository->sorteosByDate();
         return $this->render('sorteo/show.html.twig', [
             'sorteos' => $sorteos,
+            'userSaldo' => $userSaldo,
         ]);
     }
 

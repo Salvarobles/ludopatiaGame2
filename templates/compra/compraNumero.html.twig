@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compra
+{% endblock %}
+
+{% block body %}
+	<h1>Enhorabuena y Mucha Suerte</h1>
+    <h2>Su numero elegido es: {{compra.numeroLoteria}}</h2>
+    <h2>Del sorteo: {{sorteo.nombre}}</h2>
+	
+	<a href="{{ path('app_main') }}">back to list</a>
+{% endblock %}

@@ -57,4 +57,17 @@ class SorteoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    // Encontrar todos los sorteos que hayan finalizado la fecha y que no tenga numero premiado.
+    public function sorteosFinally()
+    {
+        $fechaActual = new \DateTime('now');
+    
+        return $this->createQueryBuilder('s')
+            ->where('s.fechaHora < :fechaActual')
+            ->andWhere('s.boletoPremido IS NULL') // Asumiendo que 'boleto_premiado' es el nombre del campo
+            ->setParameter('fechaActual', $fechaActual)
+            ->orderBy('s.fechaHora', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
